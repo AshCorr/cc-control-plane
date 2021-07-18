@@ -53,8 +53,8 @@ rednet.broadcast(networkName .. ":statistics:turbine_max_energy:" .. turbineMaxE
 local reactorState = 0
 local iteration = 0
 
-txUI.Controller:appUpdate = function(table)
-    local currentEnergy = turbine.getEnergy()
+txUI.Controller.appUpdate = function(table)
+    -- local currentEnergy = turbine.getEnergy()
 
     -- if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) < turbineControlMinEnergy then
     --     reactorState = 1
@@ -77,7 +77,7 @@ txUI.Controller:appUpdate = function(table)
     --     rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
     -- end
 
-    iteration = iteration + 1
+    -- iteration = iteration + 1
 end
 
 txUI.Controller:startUpdateCycle()
