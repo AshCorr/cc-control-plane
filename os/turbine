@@ -56,7 +56,7 @@ while true do
 
     if iteration == 2000 then
         iteration = 0
-        print("Current Power Stored: " .. helpers.formatNumber(turbine.getEnergy()))
+        print("Current Power Stored: " .. helpers.formatNumber(turbine.getEnergy()) .. "RF")
         rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
     end
 
