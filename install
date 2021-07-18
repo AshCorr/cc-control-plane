@@ -2,7 +2,7 @@ shell.run("pastebin", "run", "tuzXZBiz")
 
 os.loadAPI("txUI")
 
-local availableApplications = fs.list('applications/')
+local availableApplications = fs.list('applications')
 
 function installApplication(application) 
     settings.set("application", application)
