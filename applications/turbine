@@ -105,7 +105,7 @@ parallel.waitForAll(
             end
         
             energyLevelLabel.text = helpers.numberToString(currentEnergy)
-            rednet.broadcast(textutils.serialise({event = ":statistics:turbine:energy", data: currentEnergy}), networkName)
+            rednet.broadcast(textutils.serialise({event = ":statistics:turbine:energy"; data = currentEnergy}), networkName)
         end
     end,
     function() txUI.Controller:startUpdateCycle() end
