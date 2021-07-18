@@ -54,33 +54,33 @@ local reactorState = 0
 local iteration = 0
 
 function onUpdate(table)
-    local currentEnergy = turbine.getEnergy()
+    -- local currentEnergy = turbine.getEnergy()
 
-    if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) < turbineControlMinEnergy then
-        reactorState = 1
-        rednet.broadcast(networkName .. ":reactor:start")
-    end
+    -- if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) < turbineControlMinEnergy then
+    --     reactorState = 1
+    --     rednet.broadcast(networkName .. ":reactor:start")
+    -- end
 
-    if reactorState == 1 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlMaxEnergy then
-        reactorState = 0
-        rednet.broadcast(networkName .. ":reactor:stop")
-    end
+    -- if reactorState == 1 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlMaxEnergy then
+    --     reactorState = 0
+    --     rednet.broadcast(networkName .. ":reactor:stop")
+    -- end
 
-    if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlCriticalMaxEnergy then
-        -- Manual intervention required to restart reactor.
-        reactorState = -1
-        rednet.broadcast(networkName .. ":power:dump")
-        rednet.broadcast(networkName .. ":reactor:stop")
-    end
+    -- if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlCriticalMaxEnergy then
+    --     -- Manual intervention required to restart reactor.
+    --     reactorState = -1
+    --     rednet.broadcast(networkName .. ":power:dump")
+    --     rednet.broadcast(networkName .. ":reactor:stop")
+    -- end
 
-    if iteration == 2000 then
-        rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
-    end
+    -- if iteration == 2000 then
+    --     rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
+    -- end
 
-    iteration = iteration + 1
+    -- iteration = iteration + 1
 end
 
-onUpdate({})
+
 
 txUI.Controller.appUpdate = onUpdate
 
