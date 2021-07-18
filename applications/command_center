@@ -35,11 +35,12 @@ window:addComponent(txUI.Label:new({x = 2; y = 5; text = "Reactor State: "; text
 local reactorStateLabel = txUI.Label:new({x = 37; y = 5; text = "Unknown"; textAlign = "left";})
 window:addComponent(reactorStateLabel)
 
-modem.open(rednet.CHANNEL_BROADCAST)
+rednet.open("back")
 
 local reactorState = 0
 
 monitor.clear()
+monitor.setCursorPos(1, 1)
 monitor.write(textutils.formatTime(os.time(), true) .. " Command center started." )
 helpers.newLine(monitor)
 
