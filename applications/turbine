@@ -30,22 +30,22 @@ txUI.Controller:addWindow(window)
 
 window:setTitleLabel(txUI.Label:new({text = "Turbine Control"}))
 
-window:addComponent(txUI.Label:new({x = 2; y = 2; text = "Max Energy"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 37; y = 2; text = turbineMaxEnergy;}))
+window:addComponent(txUI.Label:new({x = 2; y = 3; text = "Max Energy"; textAlign = "left";}))
+window:addComponent(txUI.TextField:new({x = 37; y = 3; text = turbineMaxEnergy;}))
 
-window:addComponent(txUI.Label:new({x = 2; y = 4; text = "Max Energy Stored Percent"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 37; y = 4; text = turbineControlMaxEnergy;}))
-
-
-window:addComponent(txUI.Label:new({x = 2; y = 6; text = "Min Energy Stored Percent"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 37; y = 6; text = turbineControlMinEnergy;}))
+window:addComponent(txUI.Label:new({x = 2; y = 5; text = "Max Energy Stored Percent"; textAlign = "left";}))
+window:addComponent(txUI.TextField:new({x = 37; y = 5; text = turbineControlMaxEnergy;}))
 
 
-window:addComponent(txUI.Label:new({x = 2; y = 8; text = "Critical Energy Stored Percent"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 37; y = 8; text = turbineControlCriticalMaxEnergy;}))
+window:addComponent(txUI.Label:new({x = 2; y = 7; text = "Min Energy Stored Percent"; textAlign = "left";}))
+window:addComponent(txUI.TextField:new({x = 37; y = 7; text = turbineControlMinEnergy;}))
 
-window:addComponent(txUI.Label:new({x = 2; y = 10; text = "Network Name"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 37; y = 10; text = networkName;}))
+
+window:addComponent(txUI.Label:new({x = 2; y = 9; text = "Critical Energy Stored Percent"; textAlign = "left";}))
+window:addComponent(txUI.TextField:new({x = 37; y = 9; text = turbineControlCriticalMaxEnergy;}))
+
+window:addComponent(txUI.Label:new({x = 2; y = 11; text = "Network Name"; textAlign = "left";}))
+window:addComponent(txUI.TextField:new({x = 37; y = 11; text = networkName;}))
 
 modem.open(65535)
 rednet.broadcast(networkName .. ":statistics:turbine_max_energy:" .. turbineMaxEnergy)
