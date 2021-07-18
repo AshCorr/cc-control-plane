@@ -31,21 +31,21 @@ txUI.Controller:addWindow(window)
 window:setTitleLabel(txUI.Label:new({text = "Turbine Control"}))
 
 window:addComponent(txUI.Label:new({x = 2; y = 2; text = "Turbine Max Energy"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 33; y = 2; text = turbineMaxEnergy;}))
+window:addComponent(txUI.TextField:new({x = 37; y = 2; text = turbineMaxEnergy;}))
 
 window:addComponent(txUI.Label:new({x = 2; y = 4; text = "Turbine Control Max Energy Stored Percent"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 33; y = 4; text = turbineControlMaxEnergy;}))
+window:addComponent(txUI.TextField:new({x = 37; y = 4; text = turbineControlMaxEnergy;}))
 
 
 window:addComponent(txUI.Label:new({x = 2; y = 6; text = "Turbine Control Min Energy Stored Percent"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 33; y = 6; text = turbineControlMinEnergy;}))
+window:addComponent(txUI.TextField:new({x = 37; y = 6; text = turbineControlMinEnergy;}))
 
 
 window:addComponent(txUI.Label:new({x = 2; y = 8; text = "Turbine Control Critical Energy Stored Percent"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 33; y = 8; text = turbineControlCriticalMaxEnergy;}))
+window:addComponent(txUI.TextField:new({x = 37; y = 8; text = turbineControlCriticalMaxEnergy;}))
 
 window:addComponent(txUI.Label:new({x = 2; y = 10; text = "Network Name"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 33; y = 10; text = networkName;}))
+window:addComponent(txUI.TextField:new({x = 37; y = 10; text = networkName;}))
 
 modem.open(65535)
 rednet.broadcast(networkName .. ":statistics:turbine_max_energy:" .. turbineMaxEnergy)

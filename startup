@@ -1,4 +1,4 @@
-local applicationToLoad = settings.get("applications")
+local applicationToLoad = settings.get("application")
 
 if applicationToLoad ~= nil then
     dofile("applications/" .. applicationToLoad)
