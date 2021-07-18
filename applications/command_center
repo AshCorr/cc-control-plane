@@ -14,7 +14,7 @@ end
 
 local networkName = settings.get("network.name", "network")
 
-local w, h = monito.getSize()
+local w, h = term.getSize()
 local window = txUI.Window:new({w = w; h = h;})
 txUI.Controller:addWindow(window)
 
