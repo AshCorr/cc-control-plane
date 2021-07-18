@@ -29,7 +29,7 @@ window:addComponent(txUI.Label:new({x = 2; y = 3; w = w-1; text = "Pick applicat
 local list = txUI.List:new({ x = 2; y = 5; w = w-2})
 
 table.foreach(availableOS, function(k,v) 
-    list:addComponent(txUI.Button:new({text = v; action = function(self) print(v) end}))
+    list:addComponent(txUI.Button:new({text = v; action = function(self) os.reboot() end}))
 end)
 
 window:addComponent(list)
