@@ -13,7 +13,8 @@ function getOrSetSettingNumber(setting, message)
 
     if turbineMaxEnergy == nil then
         print(message)
-        settingValue = tonumber(read():gsub('%W',''))
+        settingValue = read():gsub('%W','')
+        settingValue = tonumber(settingValue)
         settings.set(setting, settingValue)
         settings.save(".settings")
     end
