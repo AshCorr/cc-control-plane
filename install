@@ -13,3 +13,4 @@ if not helpers.tableHasValue(availableOS, osToInstall) then
 end
 
 settings.set("os", osToInstall)
+settings.save(".settings")
