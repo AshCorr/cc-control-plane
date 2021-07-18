@@ -31,8 +31,8 @@ txUI.Controller:addWindow(window)
 window:setTitleLabel(txUI.Label:new({text = "Turbine Control"}))
 
 window:addComponent(txUI.Label:new({x = 2; y = 3; text = "Max Energy:"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 37; y = 3; text = helper.numberToString(turbineMaxEnergy); action = function(self) 
-    turbineMaxEnergy = helper.formatNumber(self.text)
+window:addComponent(txUI.TextField:new({x = 37; y = 3; text = helpers.numberToString(turbineMaxEnergy); action = function(self) 
+    turbineMaxEnergy = helpers.formatNumber(self.text)
     settings.set("turbine.max_energy", turbineMaxEnergy)
     settings.save()
 end}))
@@ -72,7 +72,7 @@ local reactorStateLabel = txUI.Label:new({x = 37; y = 15; text = "Off"; textAlig
 window:addComponent(reactorStateLabel)
 
 window:addComponent(txUI.Label:new({x = 2; y = 17; text = "Turbine Energy Level: "; textAlign = "left";}))
-local energyLevelLabel = txUI.Label:new({x = 37; y = 17; text = helper.numberToString(turbine.getEnergy()); textAlign = "left";})
+local energyLevelLabel = txUI.Label:new({x = 37; y = 17; text = helpers.numberToString(turbine.getEnergy()); textAlign = "left";})
 window:addComponent(energyLevelLabel)
 
 rednet.open("top")
