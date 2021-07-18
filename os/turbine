@@ -60,5 +60,5 @@ while true do
         rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
     end
 
-    iteration++
+    iteration+=1
 end
