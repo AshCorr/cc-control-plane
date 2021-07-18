@@ -49,17 +49,17 @@ parallel.waitForAll(
         while true do
             local senderId, message, protocol = rednet.receive(networkName)
 
-            splitMessage = helpers.splitString(message, "?")
+            event = textutils.deserialise(message)
 
-            monitor.write(textutils.formatTime(os.time(), true) .. " " .. splitMessage[0])
+            monitor.write(textutils.formatTime(os.time(), true) .. " " .. event.event)
 
             helpers.newLine(monitor)
 
-            if splitMessage[0] == ":reactor:start" then
+            if event.event == ":reactor:start" then
                 monitor.write(textutils.formatTime(os.time(), true) .. " Turbine sent request to start reactor." )
                 requestedReactorStateLabel.text = "On"
                 helpers.newLine(monitor)
-            elseif splitMessage[0] == ":reactor:stop" then
+            elseif event.event == ":reactor:stop" then
                 monitor.write(textutils.formatTime(os.time(), true) .. " Turbine sent request to stop reactor." )
                 requestedReactorStateLabel.text = "Off"
                 helpers.newLine(monitor)

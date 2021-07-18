@@ -87,25 +87,25 @@ parallel.waitForAll(
             if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) < turbineControlMinEnergy then
                 reactorStateLabel.text = "On"
                 reactorState = 1
-                rednet.broadcast(":reactor:start", networkName)
+                rednet.broadcast(textutils.serialise({event: ":reactor:start"}), networkName)
             end
         
             if reactorState == 1 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlMaxEnergy then
                 reactorStateLabel.text = "Off"
                 reactorState = 0
-                rednet.broadcast(":reactor:stop", networkName)
+                rednet.broadcast(textutils.serialise({event: ":reactor:stop"}), networkName)
             end
         
             if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlCriticalMaxEnergy then
                 -- Manual intervention required to restart reactor.
                 reactorStateLabel.text = "Off (Critical)"
                 reactorState = -1
-                rednet.broadcast(":power:dump", networkName)
-                rednet.broadcast(":reactor:stop", networkName)
+                rednet.broadcast(textutils.serialise({event: ":power:dump"}), networkName)
+                rednet.broadcast(textutils.serialise({event: ":reactor:stop"}), networkName)
             end
         
             energyLevelLabel.text = helpers.numberToString(currentEnergy)
-            rednet.broadcast(":statistics:turbine_energy?" .. currentEnergy, networkName)
+            rednet.broadcast(textutils.serialise({event: ":statistics:turbine:energy", data: currentEnergy}), networkName)
         end
     end,
     function() txUI.Controller:startUpdateCycle() end
