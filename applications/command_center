@@ -51,6 +51,10 @@ parallel.waitForAll(
 
             splitMessage = helpers.splitString(message, "?")
 
+            monitor.write(textutils.formatTime(os.time(), true) .. " " .. splitMessage[0] .. ":" .. splitMessage[1] )
+
+            helpers.newLine(monitor)
+
             if splitMessage[0] == ":reactor:start" then
                 monitor.write(textutils.formatTime(os.time(), true) .. " Turbine sent request to start reactor." )
                 requestedReactorStateLabel.text = "On"
