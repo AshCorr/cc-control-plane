@@ -79,5 +79,11 @@ function splitString(str, pat)
 
 function newLine(monitor)
     local _,cY= monitor.getCursorPos()
-    monitor.setCursorPos(1,cY+1)
+    local _, sY = monitor.getSize();
+
+    if cY == sY then
+        monitor.scroll(1)
+    else
+        monitor.setCursorPos(1,cY+1)
+    end
 end
