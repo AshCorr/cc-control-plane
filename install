@@ -1,22 +1,15 @@
 shell.run("pastebin", "run", "tuzXZBiz")
 
 os.loadAPI("txUI")
-os.loadAPI('apis/helpers')
 
-local availableOS = fs.list('os/')
+local availableApplications = fs.list('applications/')
 
--- print('List of OS: ' .. table.concat(availableOS, ', '))
--- print('Select OS to install:')
+function installApplication(application) 
+    settings.set("application", application)
+    settings.save(".settings")
 
--- local osToInstall = read()
-
--- if not helpers.tableHasValue(availableOS, osToInstall) then
---     print(osToInstall .. ' does not exist. Goodbye!')
---     return
--- end
-
--- settings.set("os", osToInstall)
--- settings.save(".settings")
+    os.reboot()
+end
 
 local w, h = term.getSize()
 local window = txUI.Window:new({w = w; h = h;})
@@ -29,7 +22,7 @@ window:addComponent(txUI.Label:new({x = 2; y = 3; w = w-1; text = "Pick applicat
 local list = txUI.List:new({ x = 2; y = 5; w = w-2})
 
 table.foreach(availableOS, function(k,v) 
-    list:addComponent(txUI.Button:new({text = v; action = function(self) os.reboot() end}))
+    list:addComponent(txUI.Button:new({text = v; action = function(self) installApplication(v) end}))
 end)
 
 window:addComponent(list)
