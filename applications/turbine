@@ -24,7 +24,7 @@ local turbineControlMinEnergy = settings.get("turbine.control_min_energy_percent
 local turbineControlCriticalMaxEnergy = settings.get("turbine.control_critical_max_energy_percent", "15")
 local networkName = settings.get("network.name", "network")
 
-local w, h = monito.getSize()
+local w, h = term.getSize()
 local window = txUI.Window:new({w = w; h = h;})
 txUI.Controller:addWindow(window)
 
