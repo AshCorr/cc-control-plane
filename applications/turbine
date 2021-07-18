@@ -31,7 +31,7 @@ txUI.Controller:addWindow(window)
 window:setTitleLabel(txUI.Label:new({text = "Turbine Control"}))
 
 window:addComponent(txUI.Label:new({x = 2; y = 3; text = "Max Energy"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 37; y = 3; text = turbineMaxEnergy;}))
+window:addComponent(txUI.TextField:new({x = 37; y = 3; text = turbineMaxEnergy; action = function(self) print(self.text) end}))
 
 window:addComponent(txUI.Label:new({x = 2; y = 5; text = "Max Energy Stored Percent"; textAlign = "left";}))
 window:addComponent(txUI.TextField:new({x = 37; y = 5; text = turbineControlMaxEnergy;}))
