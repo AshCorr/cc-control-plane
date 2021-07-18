@@ -1,0 +1,65 @@
+os.loadAPI("txUI")
+os.loadAPI("helpers")
+
+local modem = peripheral.find("modem")
+local monitor = peripheral.find("monitor")
+
+if modem == nil then
+    error("No attached modem found.")
+end
+
+if monitor == nil then
+    error("No attached monitor found.")
+end
+
+local networkName = settings.get("network.name", "network")
+
+local w, h = monito.getSize()
+local window = txUI.Window:new({w = w; h = h;})
+txUI.Controller:addWindow(window)
+
+window:setTitleLabel(txUI.Label:new({text = "Command Center"}))
+
+window:addComponent(txUI.Label:new({x = 2; y = 11; text = "Network Name:"; textAlign = "left";}))
+window:addComponent(txUI.TextField:new({x = 37; y = 11; text = networkName; action = function(self) 
+    settings.set("network.name", self.text)
+    settings.save()
+    os.reboot()
+end}))
+
+window:addComponent(txUI.Label:new({x = 2; y = 3; text = "Turbine Requested Reactor State: "; textAlign = "left";}))
+local requestedReactorStateLabel = txUI.Label:new({x = 37; y = 3; text = "Unknown"; textAlign = "left";})
+window:addComponent(requestedReactorStateLabel)
+
+window:addComponent(txUI.Label:new({x = 2; y = 5; text = "Reactor State: "; textAlign = "left";}))
+local reactorStateLabel = txUI.Label:new({x = 37; y = 5; text = "Unknown"; textAlign = "left";})
+window:addComponent(reactorStateLabel)
+
+modem.open(rednet.BROADCAST_CHANNEL)
+
+local reactorState = 0
+
+monitor.clear()
+monitor.write(textutils.formatTime(os.time(), true) .. " Command center started." )
+helpers.newLine(monitor)
+
+parallel.waitForAll(
+    function()
+        while true do
+            local senderId, message, protocol = rednet.receive(networkName)
+
+            splitMessage = helpers.splitString(message, "?")
+
+            if splitMessage[0] == ":reactor:start" then
+                monitor.write(textutils.formatTime(os.time(), true) .. " Turbine sent request to start reactor." )
+                requestedReactorStateLabel.text = "On"
+                helpers.newLine(monitor)
+            elseif splitMessage[0] == ":reactor:stop"
+                monitor.write(textutils.formatTime(os.time(), true) .. " Turbine sent request to stop reactor." )
+                requestedReactorStateLabel.text = "Off"
+                helpers.newLine(monitor)
+            end 
+        end
+    end,
+    function() txUI.Controller:startUpdateCycle() end
+)

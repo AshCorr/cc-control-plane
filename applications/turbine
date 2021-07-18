@@ -24,7 +24,7 @@ local turbineControlMinEnergy = settings.get("turbine.control_min_energy_percent
 local turbineControlCriticalMaxEnergy = settings.get("turbine.control_critical_max_energy_percent", "15")
 local networkName = settings.get("network.name", "network")
 
-local w, h = term.getSize()
+local w, h = monito.getSize()
 local window = txUI.Window:new({w = w; h = h;})
 txUI.Controller:addWindow(window)
 
@@ -105,7 +105,7 @@ parallel.waitForAll(
             end
         
             energyLevelLabel.text = helpers.numberToString(currentEnergy)
-            rednet.broadcast(":statistics:turbine_energy:" .. currentEnergy, networkName)
+            rednet.broadcast(":statistics:turbine_energy?" .. currentEnergy, networkName)
         end
     end,
     function() txUI.Controller:startUpdateCycle() end
