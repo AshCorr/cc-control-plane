@@ -7,7 +7,7 @@ print('Select OS to install:')
 
 local osToInstall = read()
 
-if !(helpers.tableHasValue(availableOS, osToInstall)) then
+if not helpers.tableHasValue(availableOS, osToInstall) then
     print(osToInstall .. ' does not exist. Goodbye!')
     return
 end
