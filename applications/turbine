@@ -53,33 +53,33 @@ rednet.broadcast(networkName .. ":statistics:turbine_max_energy:" .. turbineMaxE
 local reactorState = 0
 local iteration = 0
 
-txUI.Controller.appUpdate = function()
-    local currentEnergy = turbine.getEnergy()
+-- txUI.Controller.appUpdate = function()
+--     local currentEnergy = turbine.getEnergy()
 
-    if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) < turbineControlMinEnergy then
-        reactorState = 1
-        rednet.broadcast(networkName .. ":reactor:start")
-    end
+--     if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) < turbineControlMinEnergy then
+--         reactorState = 1
+--         rednet.broadcast(networkName .. ":reactor:start")
+--     end
 
-    if reactorState == 1 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlMaxEnergy then
-        reactorState = 0
-        rednet.broadcast(networkName .. ":reactor:stop")
-    end
+--     if reactorState == 1 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlMaxEnergy then
+--         reactorState = 0
+--         rednet.broadcast(networkName .. ":reactor:stop")
+--     end
 
-    if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlCriticalMaxEnergy then
-        -- Manual intervention required to restart reactor.
-        reactorState = -1
-        rednet.broadcast(networkName .. ":power:dump")
-        rednet.broadcast(networkName .. ":reactor:stop")
-    end
+--     if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlCriticalMaxEnergy then
+--         -- Manual intervention required to restart reactor.
+--         reactorState = -1
+--         rednet.broadcast(networkName .. ":power:dump")
+--         rednet.broadcast(networkName .. ":reactor:stop")
+--     end
 
-    if iteration == 2000 then
-        iteration = 0
-        print("Current Power Stored: " .. helpers.formatNumber(turbine.getEnergy()) .. "RF")
-        rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
-    end
+--     if iteration == 2000 then
+--         iteration = 0
+--         print("Current Power Stored: " .. helpers.formatNumber(turbine.getEnergy()) .. "RF")
+--         rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
+--     end
 
-    iteration = iteration + 1
-end
+--     iteration = iteration + 1
+-- end
 
 txUI.Controller:startUpdateCycle()
