@@ -81,3 +81,5 @@ txUI.Controller.appUpdate = function()
 
     iteration = iteration + 1
 end
+
+txUI.Controller:startUpdateCycle()
