@@ -1,0 +1,33 @@
+function tableHasValue (table, val)
+    for index, value in ipairs(table) do
+        if value == val then
+            return true
+        end
+    end
+
+    return false
+end
+
+function getOrSetSettingNumber(setting, message)
+    local settingValue = settings.get(setting)
+
+    if turbineMaxEnergy == nil then
+        print(message)
+        settingValue = tonumber(read())
+        settings.set(setting, settingValue)
+    end
+
+    return settingValue
+end
+
+function getOrSetSettingString(setting, message)
+    local settingValue = settings.get(setting)
+
+    if turbineMaxEnergy == nil then
+        print(message)
+        settingValue = tonumber(read())
+        settings.set(setting, settingValue)
+    end
+
+    return settingValue
+end
