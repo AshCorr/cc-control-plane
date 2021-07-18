@@ -37,17 +37,17 @@ local iteration = 0
 while true do
     local currentEnergy = turbine.getEnergy()
 
-    if reactorState == 0 && (currentEnergy / turbineMaxEnergy * 100) < turbineControlMinEnergy then
+    if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) < turbineControlMinEnergy then
         reactorState = 1
         rednet.broadcast(networkName .. ":reactor:start")
     end
 
-    if reactorState == 1 && (currentEnergy / turbineMaxEnergy * 100) > turbineControlMaxEnergy then
+    if reactorState == 1 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlMaxEnergy then
         reactorState = 0
         rednet.broadcast(networkName .. ":reactor:stop")
     end
 
-    if reactorState == 0 && (currentEnergy / turbineMaxEnergy * 100) > turbineControlCriticalMaxEnergy then
+    if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlCriticalMaxEnergy then
         -- Manual intervention required to restart reactor.
         reactorState = -1
         rednet.broadcast(networkName .. ":power:dump")
@@ -55,6 +55,10 @@ while true do
     end
 
     if iteration == 2000 then
+        iteration = 0
+        print("Current Power Stored: " .. helpers.formatNumber(turbine.getEnergy()))
         rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
     end
+
+    iteration++
 end
