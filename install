@@ -3,7 +3,7 @@ shell.run("pastebin", "run", "tuzXZBiz")
 os.loadAPI("txUI")
 os.loadAPI('apis/helpers')
 
--- local availableOS = fs.list('os/')
+local availableOS = fs.list('os/')
 
 -- print('List of OS: ' .. table.concat(availableOS, ', '))
 -- print('Select OS to install:')
