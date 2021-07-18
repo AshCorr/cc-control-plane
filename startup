@@ -1,5 +1,5 @@
-local applicationToLoad = settings.get("application")
+local applicationToLoad = settings.get("applications")
 
 if applicationToLoad ~= nil then
-    dofile("application/" .. applicationToLoad)
+    dofile("applications/" .. applicationToLoad)
 end
