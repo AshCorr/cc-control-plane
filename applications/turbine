@@ -1,8 +1,8 @@
 os.loadAPI("txUI")
 os.loadAPI("helpers")
 
-local turbine = peripheral.find("mekanismgenerators:turbine_valve")
-local modem = peripheral.find("modem")
+turbine = peripheral.find("mekanismgenerators:turbine_valve")
+modem = peripheral.find("modem")
 
 if turbine == nil then
     error("No attached turbine found.")
