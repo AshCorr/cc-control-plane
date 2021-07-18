@@ -35,7 +35,7 @@ window:addComponent(txUI.Label:new({x = 2; y = 5; text = "Reactor State: "; text
 local reactorStateLabel = txUI.Label:new({x = 37; y = 5; text = "Unknown"; textAlign = "left";})
 window:addComponent(reactorStateLabel)
 
-modem.open(rednet.BROADCAST_CHANNEL)
+modem.open(rednet.CHANNEL_BROADCAST)
 
 local reactorState = 0
 
