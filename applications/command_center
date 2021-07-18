@@ -51,7 +51,7 @@ parallel.waitForAll(
 
             splitMessage = helpers.splitString(message, "?")
 
-            monitor.write(textutils.formatTime(os.time(), true) .. " " .. splitMessage[0] .. ":" .. splitMessage[1] )
+            monitor.write(textutils.formatTime(os.time(), true) .. " " .. splitMessage[0])
 
             helpers.newLine(monitor)
 
