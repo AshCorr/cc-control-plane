@@ -104,7 +104,7 @@ parallel.waitForAll(
                 rednet.broadcast(":reactor:stop", networkName)
             end
         
-            energyLevelLabel.text = currentEnergy
+            energyLevelLabel.text = tostring(currentEnergy)
             rednet.broadcast(":statistics:turbine_energy:" .. currentEnergy, networkName)
         end
     end,
