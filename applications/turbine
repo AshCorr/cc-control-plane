@@ -1,8 +1,8 @@
 os.loadAPI("txUI")
 os.loadAPI("helpers")
 
-turbine = peripheral.find("mekanismgenerators:turbine_valve")
-modem = peripheral.find("modem")
+local turbine = peripheral.find("mekanismgenerators:turbine_valve")
+local modem = peripheral.find("modem")
 
 if turbine == nil then
     error("No attached turbine found.")
@@ -53,35 +53,34 @@ rednet.broadcast(networkName .. ":statistics:turbine_max_energy:" .. turbineMaxE
 local reactorState = 0
 local iteration = 0
 
-function onUpdate(table)
-    local currentEnergy = turbine.getEnergy()
+parallel.waitForAll(
+    txUI.Controller:startUpdateCycle(),
+    function()
+        while true
+            local currentEnergy = turbine.getEnergy()
 
-    -- if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) < turbineControlMinEnergy then
-    --     reactorState = 1
-    --     rednet.broadcast(networkName .. ":reactor:start")
-    -- end
-
-    -- if reactorState == 1 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlMaxEnergy then
-    --     reactorState = 0
-    --     rednet.broadcast(networkName .. ":reactor:stop")
-    -- end
-
-    -- if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlCriticalMaxEnergy then
-    --     -- Manual intervention required to restart reactor.
-    --     reactorState = -1
-    --     rednet.broadcast(networkName .. ":power:dump")
-    --     rednet.broadcast(networkName .. ":reactor:stop")
-    -- end
-
-    -- if iteration == 2000 then
-    --     rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
-    -- end
-
-    -- iteration = iteration + 1
-end
-
-
-
-txUI.Controller.appUpdate = onUpdate
-
-txUI.Controller:startUpdateCycle()
+            if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) < turbineControlMinEnergy then
+                reactorState = 1
+                rednet.broadcast(networkName .. ":reactor:start")
+            end
+        
+            if reactorState == 1 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlMaxEnergy then
+                reactorState = 0
+                rednet.broadcast(networkName .. ":reactor:stop")
+            end
+        
+            if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlCriticalMaxEnergy then
+                -- Manual intervention required to restart reactor.
+                reactorState = -1
+                rednet.broadcast(networkName .. ":power:dump")
+                rednet.broadcast(networkName .. ":reactor:stop")
+            end
+        
+            if iteration == 2000 then
+                rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
+            end
+        
+            iteration = iteration + 1
+        end
+    end
+)
