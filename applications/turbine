@@ -101,11 +101,7 @@ parallel.waitForAll(
                 rednet.broadcast(networkName .. ":reactor:stop")
             end
         
-            if iteration == 2000 then
-                rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
-            end
-        
-            sleep(0.05)
+            rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
         end
     end
 )
