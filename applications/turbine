@@ -30,14 +30,14 @@ txUI.Controller:addWindow(window)
 
 window:setTitleLabel(txUI.Label:new({text = "Turbine Control"}))
 
-window:addComponent(txUI.Label:new({x = 2; y = 3; text = "Max Energy"; textAlign = "left";}))
+window:addComponent(txUI.Label:new({x = 2; y = 3; text = "Max Energy:"; textAlign = "left";}))
 window:addComponent(txUI.TextField:new({x = 37; y = 3; text = turbineMaxEnergy; action = function(self) 
     turbineMaxEnergy = tonumber(self.text)
     settings.set("turbine.max_energy", turbineMaxEnergy)
     settings.save()
 end}))
 
-window:addComponent(txUI.Label:new({x = 2; y = 5; text = "Max Energy Stored Percent"; textAlign = "left";}))
+window:addComponent(txUI.Label:new({x = 2; y = 5; text = "Max Energy Stored Percent:"; textAlign = "left";}))
 window:addComponent(txUI.TextField:new({x = 37; y = 5; text = turbineControlMaxEnergy; action = function(self) 
     turbineControlMaxEnergy = tonumber(self.text)
     settings.set("turbine.control_max_energy_percent", turbineControlMaxEnergy)
@@ -45,7 +45,7 @@ window:addComponent(txUI.TextField:new({x = 37; y = 5; text = turbineControlMaxE
 end}))
 
 
-window:addComponent(txUI.Label:new({x = 2; y = 7; text = "Min Energy Stored Percent"; textAlign = "left";}))
+window:addComponent(txUI.Label:new({x = 2; y = 7; text = "Min Energy Stored Percent:"; textAlign = "left";}))
 window:addComponent(txUI.TextField:new({x = 37; y = 7; text = turbineControlMinEnergy; action = function(self) 
     turbineControlMinEnergy = tonumber(self.text)
     settings.set("turbine.control_min_energy_percent", turbineControlMinEnergy)
@@ -53,14 +53,14 @@ window:addComponent(txUI.TextField:new({x = 37; y = 7; text = turbineControlMinE
 end}))
 
 
-window:addComponent(txUI.Label:new({x = 2; y = 9; text = "Critical Energy Stored Percent"; textAlign = "left";}))
+window:addComponent(txUI.Label:new({x = 2; y = 9; text = "Critical Energy Stored Percent:"; textAlign = "left";}))
 window:addComponent(txUI.TextField:new({x = 37; y = 9; text = turbineControlCriticalMaxEnergy; action = function(self) 
     turbineControlCriticalMaxEnergy = tonumber(self.text)
     settings.set("turbine.control_critical_max_energy_percent", turbineControlCriticalMaxEnergy)
     settings.save()
 end}))
 
-window:addComponent(txUI.Label:new({x = 2; y = 11; text = "Network Name"; textAlign = "left";}))
+window:addComponent(txUI.Label:new({x = 2; y = 11; text = "Network Name:"; textAlign = "left";}))
 window:addComponent(txUI.TextField:new({x = 37; y = 11; text = networkName; action = function(self) 
     networkName = self.text
     settings.set("network.name", networkName)
@@ -70,6 +70,10 @@ end}))
 window:addComponent(txUI.Label:new({x = 2; y = 15; text = "Requested Reactor State: "; textAlign = "left";}))
 local reactorStateLabel = txUI.Label:new({x = 37; y = 15; text = "Off"; textAlign = "left";})
 window:addComponent(reactorStateLabel)
+
+window:addComponent(txUI.Label:new({x = 2; y = 17; text = "Turbine Energy Level: "; textAlign = "left";}))
+local energyLevelLabel = txUI.Label:new({x = 37; y = 17; text = turbine.getEnergy(); textAlign = "left";})
+window:addComponent(energyLevelLabel)
 
 rednet.open("top")
 
@@ -83,24 +87,25 @@ parallel.waitForAll(
             if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) < turbineControlMinEnergy then
                 reactorStateLabel.text = "On"
                 reactorState = 1
-                rednet.broadcast(networkName .. ":reactor:start")
+                rednet.broadcast(":reactor:start", networkName)
             end
         
             if reactorState == 1 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlMaxEnergy then
                 reactorStateLabel.text = "Off"
                 reactorState = 0
-                rednet.broadcast(networkName .. ":reactor:stop")
+                rednet.broadcast(":reactor:stop", networkName)
             end
         
             if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlCriticalMaxEnergy then
                 -- Manual intervention required to restart reactor.
                 reactorStateLabel.text = "Off (Critical)"
                 reactorState = -1
-                rednet.broadcast(networkName .. ":power:dump")
-                rednet.broadcast(networkName .. ":reactor:stop")
+                rednet.broadcast(":power:dump", networkName)
+                rednet.broadcast(":reactor:stop", networkName)
             end
         
-            rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
+            energyLevelLabel.text = currentEnergy
+            rednet.broadcast(":statistics:turbine_energy:" .. currentEnergy, networkName)
         end
     end,
     function() txUI.Controller:startUpdateCycle() end
