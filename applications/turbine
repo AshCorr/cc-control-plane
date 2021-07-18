@@ -72,7 +72,7 @@ local reactorStateLabel = txUI.Label:new({x = 37; y = 15; text = "Off"; textAlig
 window:addComponent(reactorStateLabel)
 
 window:addComponent(txUI.Label:new({x = 2; y = 17; text = "Turbine Energy Level: "; textAlign = "left";}))
-local energyLevelLabel = txUI.Label:new({x = 37; y = 17; text = turbine.getEnergy(); textAlign = "left";})
+local energyLevelLabel = txUI.Label:new({x = 37; y = 17; text = tostring(turbine.getEnergy()); textAlign = "left";})
 window:addComponent(energyLevelLabel)
 
 rednet.open("top")
