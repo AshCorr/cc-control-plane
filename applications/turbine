@@ -103,5 +103,5 @@ parallel.waitForAll(
             rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
         end
     end,
-    txUI.Controller:startUpdateCycle
+    function() txUI.Controller:startUpdateCycle() end
 )
