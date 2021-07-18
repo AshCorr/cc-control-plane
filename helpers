@@ -83,6 +83,7 @@ function newLine(monitor)
 
     if cY == sY then
         monitor.scroll(1)
+        monitor.setCursorPos(1, cY)
     else
         monitor.setCursorPos(1,cY+1)
     end
