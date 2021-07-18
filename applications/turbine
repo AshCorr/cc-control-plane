@@ -32,29 +32,48 @@ window:setTitleLabel(txUI.Label:new({text = "Turbine Control"}))
 
 window:addComponent(txUI.Label:new({x = 2; y = 3; text = "Max Energy"; textAlign = "left";}))
 window:addComponent(txUI.TextField:new({x = 37; y = 3; text = turbineMaxEnergy; action = function(self) 
-    settings.set("turbine.max_energy", self.text)
+    turbineMaxEnergy = tonumber(self.text)
+    settings.set("turbine.max_energy", turbineMaxEnergy)
     settings.save()
 end}))
 
 window:addComponent(txUI.Label:new({x = 2; y = 5; text = "Max Energy Stored Percent"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 37; y = 5; text = turbineControlMaxEnergy;}))
+window:addComponent(txUI.TextField:new({x = 37; y = 5; text = turbineControlMaxEnergy; action = function(self) 
+    turbineControlMaxEnergy = tonumber(self.text)
+    settings.set("turbine.control_max_energy_percent", turbineControlMaxEnergy)
+    settings.save()
+end}))
 
 
 window:addComponent(txUI.Label:new({x = 2; y = 7; text = "Min Energy Stored Percent"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 37; y = 7; text = turbineControlMinEnergy;}))
+window:addComponent(txUI.TextField:new({x = 37; y = 7; text = turbineControlMinEnergy; action = function(self) 
+    turbineControlMinEnergy = tonumber(self.text)
+    settings.set("turbine.control_min_energy_percent", turbineControlMinEnergy)
+    settings.save()
+end}))
 
 
 window:addComponent(txUI.Label:new({x = 2; y = 9; text = "Critical Energy Stored Percent"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 37; y = 9; text = turbineControlCriticalMaxEnergy;}))
+window:addComponent(txUI.TextField:new({x = 37; y = 9; text = turbineControlCriticalMaxEnergy; action = function(self) 
+    turbineControlCriticalMaxEnergy = tonumber(self.text)
+    settings.set("turbine.control_critical_max_energy_percent", turbineControlCriticalMaxEnergy)
+    settings.save()
+end}))
 
 window:addComponent(txUI.Label:new({x = 2; y = 11; text = "Network Name"; textAlign = "left";}))
-window:addComponent(txUI.TextField:new({x = 37; y = 11; text = networkName;}))
+window:addComponent(txUI.TextField:new({x = 37; y = 11; text = networkName; action = function(self) 
+    networkName = self.text
+    settings.set("network.name", networkName)
+    settings.save()
+end}))
+
+window:addComponent(txUI.Label:new({x = 2; y = 15; text = "Requested Reactor State: "; textAlign = "left";}))
+local reactorStateLabel = txUI.Label:new({x = 37; y = 15; text = "Off"; textAlign = "left";})
+window:addComponent(reactorStateLabel)
 
 modem.open(65535)
-rednet.broadcast(networkName .. ":statistics:turbine_max_energy:" .. turbineMaxEnergy)
 
 local reactorState = 0
-local iteration = 0
 
 parallel.waitForAll(
     txUI.Controller:startUpdateCycle(),
@@ -63,17 +82,20 @@ parallel.waitForAll(
             local currentEnergy = turbine.getEnergy()
 
             if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) < turbineControlMinEnergy then
+                reactorStateLabel.text = "On"
                 reactorState = 1
                 rednet.broadcast(networkName .. ":reactor:start")
             end
         
             if reactorState == 1 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlMaxEnergy then
+                reactorStateLabel.text = "Off"
                 reactorState = 0
                 rednet.broadcast(networkName .. ":reactor:stop")
             end
         
             if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) > turbineControlCriticalMaxEnergy then
                 -- Manual intervention required to restart reactor.
+                reactorStateLabel.text = "Off (Critical)"
                 reactorState = -1
                 rednet.broadcast(networkName .. ":power:dump")
                 rednet.broadcast(networkName .. ":reactor:stop")
@@ -83,7 +105,7 @@ parallel.waitForAll(
                 rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
             end
         
-            iteration = iteration + 1
+            sleep(0.05)
         end
     end
 )
