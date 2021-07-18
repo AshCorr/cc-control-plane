@@ -1,16 +1,37 @@
+shell.run("pastebin", "run", "tuzXZBiz")
+
+os.loadAPI("txUI")
 os.loadAPI('apis/helpers')
 
-local availableOS = fs.list('os/')
+-- local availableOS = fs.list('os/')
 
-print('List of OS: ' .. table.concat(availableOS, ', '))
-print('Select OS to install:')
+-- print('List of OS: ' .. table.concat(availableOS, ', '))
+-- print('Select OS to install:')
 
-local osToInstall = read()
+-- local osToInstall = read()
 
-if not helpers.tableHasValue(availableOS, osToInstall) then
-    print(osToInstall .. ' does not exist. Goodbye!')
-    return
-end
+-- if not helpers.tableHasValue(availableOS, osToInstall) then
+--     print(osToInstall .. ' does not exist. Goodbye!')
+--     return
+-- end
 
-settings.set("os", osToInstall)
-settings.save(".settings")
+-- settings.set("os", osToInstall)
+-- settings.save(".settings")
+
+local w, h = term.getSize()
+local window = txUI.Window:new({w = w; h = h;})
+txUI.Controller:addWindow(window)
+
+window:setTitleLabel(txUI.Label:new({text = "Install Application"; textColor = colors.white; textAlign = "right";}))
+
+window:addComponent(txUI.Label:new({x = 1; y = 5; w = w; text = "Pick application to install"; bgColor = colors.lightGray;}))
+
+local list = txUI.List:new({ x = 1; y = 2; w = w})
+
+table.foreach(availableOS, function(k,v) 
+    list:addComponent(txUI.Button:new({text = v; action = function(self) print(v) end}))
+end)
+
+window:addComponent(list)
+
+txUI.Controller:startUpdateCycle()
