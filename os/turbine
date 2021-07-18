@@ -9,10 +9,10 @@ local turbine = peripheral.find("mekanismgenerators:turbine_valve")
 local modem = peripheral.find("modem")
 
 if turbine == nil then
-    error("No attached turbined found.")
+    error("No attached turbine found.")
 end
 
-if turbine == nil then
+if modem == nil then
     error("No attached modem found.")
 end
 
@@ -60,5 +60,5 @@ while true do
         rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
     end
 
-    iteration = iteration +1
+    iteration = iteration + 1
 end
