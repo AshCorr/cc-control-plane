@@ -51,10 +51,6 @@ parallel.waitForAll(
 
             event = textutils.unserialize(message)
 
-            monitor.write(textutils.formatTime(os.time(), true) .. " " .. event.event)
-
-            helpers.newLine(monitor)
-
             if event.event == ":reactor:start" then
                 monitor.write(textutils.formatTime(os.time(), true) .. " Turbine sent request to start reactor." )
                 requestedReactorStateLabel.text = "On"
