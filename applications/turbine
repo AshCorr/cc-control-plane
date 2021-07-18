@@ -1,9 +1,5 @@
-os.loadAPI("apis/helpers")
-os.loadAPI("apis/gui")
-
-print("Welcome to TurbineOS")
-
-print("Looking for available turbines...")
+os.loadAPI("txUI")
+os.loadAPI("helpers")
 
 local turbine = peripheral.find("mekanismgenerators:turbine_valve")
 local modem = peripheral.find("modem")
@@ -17,16 +13,39 @@ if modem == nil then
 end
 
 -- Currently unable to automatically detect the maximum energy a turbine can still.
-local turbineMaxEnergy = helpers.getOrSetSettingNumber("turbine.max_energy", "Turbine max energy (in FE's):")
+local turbineMaxEnergy = settings.get("turbine.max_energy", "30000000000")
 -- What percentage of energy should the turbine reach before sending the command to shut down the reactor.
-local turbineControlMaxEnergy = helpers.getOrSetSettingNumber("turbine.control_max_energy_percent", "Maximum Energy percent:")
+local turbineControlMaxEnergy = settings.get("turbine.control_max_energy_percent", "10")
 -- What percentage of energy should the turbine reach before sending the command to start up the reactor.
-local turbineControlMinEnergy = helpers.getOrSetSettingNumber("turbine.control_min_energy_percent", "Minimum Energy percent:")
+local turbineControlMinEnergy = settings.get("turbine.control_min_energy_percent", "2")
 -- What percentage of energy should the turbine reach before sending the command dump excess energy in the network.
 -- Ideally this value should never be reached assuming good coolant flow into the reactor, however if theres some issue with pumping enough coolant into the reactor
 -- then this threshold should enable the emergency cooling system & dump excess energy so that the turbine can continue to process steam.
-local turbineControlCriticalMaxEnergy = helpers.getOrSetSettingNumber("turbine.control_critical_max_energy_percent", "Critical Energy Storage Percent Shutdown:")
-local networkName = helpers.getOrSetSettingString("network.name", "Network name:")
+local turbineControlCriticalMaxEnergy = settings.get("turbine.control_critical_max_energy_percent", "15")
+local networkName = settings.get("network.name", "network")
+
+local w, h = term.getSize()
+local window = txUI.Window:new({w = w; h = h;})
+txUI.Controller:addWindow(window)
+
+window:setTitleLabel(txUI.Label:new({text = "Turbine Control"}))
+
+window:addComponent(txUI.Label:new({x = 2; y = 2; text = "Turbine Max Energy"; textAlign = "left";}))
+window:addComponent(txUI.TextField:new({x = 33; y = 2; text = turbineMaxEnergy;}))
+
+window:addComponent(txUI.Label:new({x = 2; y = 4; text = "Turbine Control Max Energy Stored Percent"; textAlign = "left";}))
+window:addComponent(txUI.TextField:new({x = 33; y = 4; text = turbineControlMaxEnergy;}))
+
+
+window:addComponent(txUI.Label:new({x = 2; y = 6; text = "Turbine Control Min Energy Stored Percent"; textAlign = "left";}))
+window:addComponent(txUI.TextField:new({x = 33; y = 6; text = turbineControlMinEnergy;}))
+
+
+window:addComponent(txUI.Label:new({x = 2; y = 8; text = "Turbine Control Critical Energy Stored Percent"; textAlign = "left";}))
+window:addComponent(txUI.TextField:new({x = 33; y = 8; text = turbineControlCriticalMaxEnergy;}))
+
+window:addComponent(txUI.Label:new({x = 2; y = 10; text = "Network Name"; textAlign = "left";}))
+window:addComponent(txUI.TextField:new({x = 33; y = 10; text = networkName;}))
 
 modem.open(65535)
 rednet.broadcast(networkName .. ":statistics:turbine_max_energy:" .. turbineMaxEnergy)
@@ -34,7 +53,7 @@ rednet.broadcast(networkName .. ":statistics:turbine_max_energy:" .. turbineMaxE
 local reactorState = 0
 local iteration = 0
 
-while true do
+txUI.Controller.appUpdate = function()
     local currentEnergy = turbine.getEnergy()
 
     if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) < turbineControlMinEnergy then
