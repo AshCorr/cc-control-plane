@@ -24,9 +24,9 @@ txUI.Controller:addWindow(window)
 
 window:setTitleLabel(txUI.Label:new({text = "Install Application"; textColor = colors.white; textAlign = "right";}))
 
-window:addComponent(txUI.Label:new({x = 2; y = 2; w = w-1; text = "Pick application to install"; bgColor = colors.lightGray;}))
+window:addComponent(txUI.Label:new({x = 2; y = 3; w = w-1; text = "Pick application to install"; bgColor = colors.lightGray;}))
 
-local list = txUI.List:new({ x = 2; y = 4; w = w-1})
+local list = txUI.List:new({ x = 2; y = 5; w = w-2})
 
 table.foreach(availableOS, function(k,v) 
     list:addComponent(txUI.Button:new({text = v; action = function(self) print(v) end}))
