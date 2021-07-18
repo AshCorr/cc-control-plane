@@ -54,7 +54,7 @@ parallel.waitForAll(
                 monitor.write(textutils.formatTime(os.time(), true) .. " Turbine sent request to start reactor." )
                 requestedReactorStateLabel.text = "On"
                 helpers.newLine(monitor)
-            elseif splitMessage[0] == ":reactor:stop"
+            elseif splitMessage[0] == ":reactor:stop" then
                 monitor.write(textutils.formatTime(os.time(), true) .. " Turbine sent request to stop reactor." )
                 requestedReactorStateLabel.text = "Off"
                 helpers.newLine(monitor)
