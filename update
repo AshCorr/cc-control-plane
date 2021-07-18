@@ -1,1 +1,1 @@
-shell.run("github", {"clone", "AshCorr/cc-control-plane", "-b", "main", "."})
+shell.run("github", "clone", "AshCorr/cc-control-plane", "-b", "main", ".")
