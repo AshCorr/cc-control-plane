@@ -56,7 +56,7 @@ local iteration = 0
 parallel.waitForAll(
     txUI.Controller:startUpdateCycle(),
     function()
-        while true
+        while true do
             local currentEnergy = turbine.getEnergy()
 
             if reactorState == 0 and (currentEnergy / turbineMaxEnergy * 100) < turbineControlMinEnergy then
