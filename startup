@@ -1,4 +1,4 @@
-local osToLoad = setings.get("os")
+local osToLoad = settings.get("os")
 
 if osToLoad ~= nil then
     dofile("os/" .. osToLoad)
