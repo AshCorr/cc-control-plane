@@ -26,7 +26,7 @@ function getOrSetSettingString(setting, message)
 
     if turbineMaxEnergy == nil then
         print(message)
-        settingValue = tonumber(read())
+        settingValue = read()
         settings.set(setting, settingValue)
         settings.save(".settings")
     end
