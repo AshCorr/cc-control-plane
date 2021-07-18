@@ -76,7 +76,6 @@ rednet.open("top")
 local reactorState = 0
 
 parallel.waitForAll(
-    txUI.Controller:startUpdateCycle(),
     function()
         while true do
             local currentEnergy = turbine.getEnergy()
@@ -103,5 +102,6 @@ parallel.waitForAll(
         
             rednet.broadcast(networkName .. ":statistics:turbine_energy:" .. turbine.getEnergy())
         end
-    end
+    end,
+    txUI.Controller:startUpdateCycle
 )
